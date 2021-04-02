@@ -1,5 +1,9 @@
 package com.radhio.lightoj.DES;
 
+/**
+ * Created by Azmia Hoque Radhio on 4/3/2021.
+ */
+
 public class DESAlgorithm {
     // CONSTANTS
     // Initial Permutation Table 64

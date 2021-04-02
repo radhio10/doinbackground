@@ -4,10 +4,15 @@ import com.radhio.lightoj.DES.DESAlgorithm;
 
 import java.util.Scanner;
 
+/**
+ * Created by Azmia Hoque Radhio on 4/3/2021.
+ */
+
 public class Main {
 
-    static String mTextInput,mKeyInput;
+    static String mTextInput, mKeyInput;
     static int n = 0;
+
     public static void main(String[] args) {
         Algorithm();
     }
@@ -28,15 +33,13 @@ public class Main {
             if (mTextInput.length() > 16) {
                 textInputBuilder.delete(16, mTextInput.length());
                 mTextInput = textInputBuilder.toString();
-            }
-            else if (mTextInput.length() < 16){
+            } else if (mTextInput.length() < 16) {
                 AppendText(textInputBuilder);
             }
             if (mKeyInput.length() > 16) {
                 keyInputBuilder.delete(16, mKeyInput.length());
                 mKeyInput = keyInputBuilder.toString();
-            }
-            else if (mKeyInput.length() < 16){
+            } else if (mKeyInput.length() < 16) {
                 AppendKey(keyInputBuilder);
             }
             CallDESAlgo(mTextInput, mKeyInput, n);
@@ -45,7 +48,7 @@ public class Main {
         }
     }
 
-    public static void AppendText(StringBuilder textInputBuilder){
+    public static void AppendText(StringBuilder textInputBuilder) {
         while (textInputBuilder.length() < 16) {
             textInputBuilder.insert(0, "0");
             n++;
@@ -53,7 +56,7 @@ public class Main {
         mTextInput = textInputBuilder.toString();
     }
 
-    public static void AppendKey(StringBuilder keyInputBuilder){
+    public static void AppendKey(StringBuilder keyInputBuilder) {
         while (keyInputBuilder.length() < 16)
             keyInputBuilder.insert(0, "0");
         mKeyInput = keyInputBuilder.toString();
@@ -73,6 +76,4 @@ public class Main {
                 "\nPlain Text: "
                         + result.toString().toUpperCase());
     }
-    //        String text = "123456ABCD132534";
-//        String key = "AABB09182736CCDD";
 }
