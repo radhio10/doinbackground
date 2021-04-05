@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static String mTextInput, mKeyInput;
+    static String mPlainTextInput, mKeyInput;
     static int n = 0;
 
     public static void main(String[] args) {
@@ -20,20 +20,20 @@ public class Main {
     public static void Algorithm() {
         Scanner input = new Scanner(System.in);
         System.out.println("Please Enter Your Text: ");
-        mTextInput = input.nextLine().trim();
+        mPlainTextInput = input.nextLine().trim();
         System.out.println("Please Enter Your Key: ");
         mKeyInput = input.nextLine().trim();
-        StringBuilder textInputBuilder = new StringBuilder(mTextInput);
+        StringBuilder textInputBuilder = new StringBuilder(mPlainTextInput);
         StringBuilder keyInputBuilder = new StringBuilder(mKeyInput);
-        if (mTextInput.length() < 16 && mKeyInput.length() < 16) {
+        if (mPlainTextInput.length() < 16 && mKeyInput.length() < 16) {
             AppendText(textInputBuilder);
             AppendKey(keyInputBuilder);
-            CallDESAlgo(mTextInput, mKeyInput, n);
-        } else if (mTextInput.length() > 16 || mKeyInput.length() > 16) {
-            if (mTextInput.length() > 16) {
-                textInputBuilder.delete(16, mTextInput.length());
-                mTextInput = textInputBuilder.toString();
-            } else if (mTextInput.length() < 16) {
+            CallDESAlgo(mPlainTextInput, mKeyInput, n);
+        } else if (mPlainTextInput.length() > 16 || mKeyInput.length() > 16) {
+            if (mPlainTextInput.length() > 16) {
+                textInputBuilder.delete(16, mPlainTextInput.length());
+                mPlainTextInput = textInputBuilder.toString();
+            } else if (mPlainTextInput.length() < 16) {
                 AppendText(textInputBuilder);
             }
             if (mKeyInput.length() > 16) {
@@ -42,9 +42,9 @@ public class Main {
             } else if (mKeyInput.length() < 16) {
                 AppendKey(keyInputBuilder);
             }
-            CallDESAlgo(mTextInput, mKeyInput, n);
+            CallDESAlgo(mPlainTextInput, mKeyInput, n);
         } else {
-            CallDESAlgo(mTextInput, mKeyInput, n);
+            CallDESAlgo(mPlainTextInput, mKeyInput, n);
         }
     }
 
@@ -53,7 +53,7 @@ public class Main {
             textInputBuilder.insert(0, "0");
             n++;
         }
-        mTextInput = textInputBuilder.toString();
+        mPlainTextInput = textInputBuilder.toString();
     }
 
     public static void AppendKey(StringBuilder keyInputBuilder) {
@@ -64,12 +64,12 @@ public class Main {
 
     public static void CallDESAlgo(String text, String key, int n) {
         DESAlgorithm cipher = new DESAlgorithm();
-        System.out.println("Encryption:\n");
-        text = cipher.encrypt(text, key);
+        System.out.println("Encryption:\n==============================");
+        text = cipher.encryption(text, key);
         System.out.println(
                 "\nCipher Text: " + text.toUpperCase() + "\n");
-        System.out.println("Decryption\n");
-        text = cipher.decrypt(text, key);
+        System.out.println("Decryption\n==============================");
+        text = cipher.decryption(text, key);
         StringBuilder result = new StringBuilder(text);
         result.delete(0, n);
         System.out.println(

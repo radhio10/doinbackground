@@ -19,7 +19,7 @@ public class DESAlgorithm {
             47, 39, 31, 23, 15, 7};
 
     // Inverse Initial Permutation Table 64
-    int[] IP1 = {40, 8, 48, 16, 56, 24, 64,
+    int[] IIP = {40, 8, 48, 16, 56, 24, 64,
             32, 39, 7, 47, 15, 55,
             23, 63, 31, 38, 6, 46,
             14, 54, 22, 62, 30, 37,
@@ -58,7 +58,7 @@ public class DESAlgorithm {
             24, 25, 26, 27, 28, 29, 28,
             29, 30, 31, 32, 1};
 
-    // Straight Permutation Table
+    // Straight Permutation Table 32
     int[] P = {16, 7, 20, 21, 29, 12, 28,
             17, 1, 15, 23, 26, 5, 18,
             31, 10, 2, 8, 24, 14, 32,
@@ -101,11 +101,12 @@ public class DESAlgorithm {
                     {7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8},
                     {2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11}}
     };
+    // Used for leftCircularShift
     int[] shiftBits = {1, 1, 2, 2, 2, 2, 2, 2,
             1, 2, 2, 2, 2, 2, 2, 1};
 
     // hexadecimal to binary conversion
-    String hextoBin(String input) {
+    String hexToBinary(String input) {
         int n = input.length() * 4; //inputed hex
         long i = Long.parseUnsignedLong(input, 16); // converted to long(Binary) from hex
         input = Long.toBinaryString(i); // converted to binary from long
@@ -117,7 +118,7 @@ public class DESAlgorithm {
     }
 
     // binary to hexadecimal conversion
-    String binToHex(String input) {
+    String binaryToHex(String input) {
         int n = input.length() / 4; //inputed Binary
         long i = Long.parseUnsignedLong(input, 2); // Converted to long from binary
         input = Long.toHexString(i); // converted to hex from long(binary)
@@ -132,13 +133,13 @@ public class DESAlgorithm {
     // according to specified sequence
     String permutation(int[] sequence, String input) {
         StringBuilder output = new StringBuilder();
-        input = hextoBin(input); // inputed 64 bits or 28 bits or 56 bits or 32 bits
+        input = hexToBinary(input); // inputed 64 bits or 28 bits or 56 bits or 32 bits
         for (int j : sequence) {
             Character c = input.charAt(j - 1);
             output.append(c);
         }
         String result = output.toString(); // Converted to 56 bits or 28 bits or 48 bits
-        String st = binToHex(result);
+        String st = binaryToHex(result);
         output = new StringBuilder(st);
         return output.toString();
     }
@@ -146,13 +147,13 @@ public class DESAlgorithm {
     // xor 2 hexadecimal strings
     String xor(String a, String b) {
         // hexadecimal to decimal(base 10)
-        long t_a = Long.parseUnsignedLong(a, 16);
+        long tableA = Long.parseUnsignedLong(a, 16);
         // hexadecimal to decimal(base 10)
-        long t_b = Long.parseUnsignedLong(b, 16);
+        long tableB = Long.parseUnsignedLong(b, 16);
         // xor
-        t_a = t_a ^ t_b;
+        tableA = tableA ^ tableB;
         // decimal to hexadecimal
-        String result = Long.toHexString(t_a);
+        String result = Long.toHexString(tableA);
         StringBuilder aBuilder = new StringBuilder(result);
         // prepend 0's to maintain length
         while (aBuilder.length() < b.length())
@@ -191,7 +192,7 @@ public class DESAlgorithm {
     // s-box lookup
     String sBox(String input) {
         StringBuilder output = new StringBuilder();
-        input = hextoBin(input);
+        input = hexToBinary(input);
         for (int i = 0; i < 48; i += 6) {
             String temp = input.substring(i, i + 6);
             int num = i / 6;
@@ -201,7 +202,7 @@ public class DESAlgorithm {
             result = temp.substring(1, 5);
             int col = Integer.parseInt(
                     result, 2);
-            int i1 = sbox[num][row][col];
+            int i1 = sbox[num][row][col]; // Substitution Choice
             result = Integer.toHexString(i1);
             output.append(result);
         }
@@ -215,7 +216,7 @@ public class DESAlgorithm {
         String temp = input.substring(8, 16); // 32 bits
         String right = temp; // 32 bits
         // Expansion permutation
-        temp = permutation(EP, temp); // 48 bits
+        temp = permutation(EP, temp); // 48 bits // Expansion
         // xor temp and round key
         temp = xor(temp, key); // 48 bits
         // lookup in s-box table
@@ -226,16 +227,16 @@ public class DESAlgorithm {
         temp = xor(left, temp);
         left = temp;
         System.out.println("Round "
-                + (num + 1) + " "
-                + right.toUpperCase()
-                + " " + left.toUpperCase() + " "
-                + key.toUpperCase());
+                + (num + 1) + ": "
+                + " R0: " +right.toUpperCase()
+                + " L0: " + left.toUpperCase()
+                + " Key: "+ key.toUpperCase());
 
         // swapper
         return right + left;
     }
 
-    public String encrypt(String plainText, String key) {
+    public String encryption(String plainText, String key) {
         int i;
         // get round keys
         String[] keys = getKeys(key); // get 48 bits key for each round
@@ -243,12 +244,12 @@ public class DESAlgorithm {
         // initial permutation
         plainText = permutation(IP, plainText);
         System.out.println(
-                "After initial permutation: "
+                "Initial permutation Result: "
                         + plainText.toUpperCase());
         System.out.println(
                 "After splitting: L0="
                         + plainText.substring(0, 8).toUpperCase()
-                        + " R0="
+                        + "   R0="
                         + plainText.substring(8, 16).toUpperCase() + "\n");
 
         // 16 rounds
@@ -261,11 +262,11 @@ public class DESAlgorithm {
                 + plainText.substring(0, 8);
 
         // final permutation
-        plainText = permutation(IP1, plainText);
+        plainText = permutation(IIP, plainText); //Get 64 bits Cipher text
         return plainText;
     }
 
-    public String decrypt(String plainText, String key) {
+    public String decryption(String plainText, String key) {
         int i;
         // get round keys
         String[] keys = getKeys(key);
@@ -273,12 +274,12 @@ public class DESAlgorithm {
         // initial permutation
         plainText = permutation(IP, plainText);
         System.out.println(
-                "After initial permutation: "
+                "Initial permutation Result: "
                         + plainText.toUpperCase());
         System.out.println(
                 "After splitting: L0="
                         + plainText.substring(0, 8).toUpperCase()
-                        + " R0=" + plainText.substring(8, 16).toUpperCase()
+                        + "   R0=" + plainText.substring(8, 16).toUpperCase()
                         + "\n");
 
         // 16-rounds
@@ -289,7 +290,7 @@ public class DESAlgorithm {
         // 32-bit swap
         plainText = plainText.substring(8, 16)
                 + plainText.substring(0, 8);
-        plainText = permutation(IP1, plainText);
+        plainText = permutation(IIP, plainText);
         return plainText;
     }
 }
