@@ -5,7 +5,7 @@ package com.radhio.lightoj.DES;
  */
 
 public class DESAlgorithm {
-    // CONSTANTS
+
     // Initial Permutation Table 64
     int[] IP = {58, 50, 42, 34, 26, 18,
             10, 2, 60, 52, 44, 36, 28, 20,
@@ -71,7 +71,6 @@ public class DESAlgorithm {
                     {0, 15, 7, 4, 14, 2, 13, 1, 10, 6, 12, 11, 9, 5, 3, 8},
                     {4, 1, 14, 8, 13, 6, 2, 11, 15, 12, 9, 7, 3, 10, 5, 0},
                     {15, 12, 8, 2, 4, 9, 1, 7, 5, 11, 3, 14, 10, 0, 6, 13}},
-
             {{15, 1, 8, 14, 6, 11, 3, 4, 9, 7, 2, 13, 12, 0, 5, 10},
                     {3, 13, 4, 7, 15, 2, 8, 14, 12, 0, 1, 10, 6, 9, 11, 5},
                     {0, 14, 7, 11, 10, 4, 13, 1, 5, 8, 12, 6, 9, 3, 2, 15},
@@ -248,9 +247,9 @@ public class DESAlgorithm {
                         + plainText.toUpperCase());
         System.out.println(
                 "After splitting: L0="
-                        + plainText.substring(0, 8).toUpperCase()
+                        + plainText.substring(0, 8).toUpperCase()//32 bits
                         + "   R0="
-                        + plainText.substring(8, 16).toUpperCase() + "\n");
+                        + plainText.substring(8, 16).toUpperCase() + "\n");//32 bits
 
         // 16 rounds
         for (i = 0; i < 16; i++) {
