@@ -257,8 +257,8 @@ public class DESAlgorithm {
         }
 
         // 32-bit swap
-        plainText = plainText.substring(8, 16)
-                + plainText.substring(0, 8);
+        plainText = plainText.substring(8, 16) //32
+                + plainText.substring(0, 8); //32
 
         // final permutation
         plainText = permutation(IIP, plainText); //Get 64 bits Cipher text

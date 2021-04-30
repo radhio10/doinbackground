@@ -14,7 +14,41 @@ public class Main {
     static int n = 0;
 
     public static void main(String[] args) {
-        Algorithm();
+        int[] arr = { 2, 3, 4, 10 ,15, 16};
+        int n = arr.length;
+        System.out.println(getMin(arr));
+//        int x = 10;
+//        int result = binarySearch(arr, 0, n - 1, x);
+//        if (result == -1)
+//            System.out.println("Element not present");
+//        else
+//            System.out.println("Element found at index " + result);
+    }
+    private static int getMin(int[] array){
+        int result = array[0];
+        for (int a: array) {
+            if (a<result){
+                result = a;
+            }
+        }
+        return  result;
+    }
+
+    static int binarySearch(int[] arr, int first, int last, int x)
+    {
+        if (last >= first) {
+            int n = (last - first) / 2;
+            int mid = first + n;
+
+            if (arr[mid] == x)
+                return mid;
+
+            if (arr[mid] > x)
+                return binarySearch(arr, first, mid - 1, x);
+
+            return binarySearch(arr, mid + 1, last, x);
+        }
+        return -1;
     }
 
     public static void Algorithm() {
