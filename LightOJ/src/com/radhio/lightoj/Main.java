@@ -9,7 +9,6 @@ import java.util.Scanner;
  */
 
 public class Main {
-
     static String mPlainTextInput, mKeyInput;
     static int n = 0;
     public static void main(String[] args) {
