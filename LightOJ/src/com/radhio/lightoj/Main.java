@@ -12,8 +12,6 @@ public class Main {
 
     static String mPlainTextInput, mKeyInput;
     static int n = 0;
-
-    
     public static void main(String[] args) {
         int[] arr = { 2, 3, 4, 10 ,15, 16};
         int n = arr.length;
